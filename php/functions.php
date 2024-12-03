@@ -12,25 +12,35 @@ function redirect_with_errors($url, $errors) {
 
 // Función que recupera la información del camarero
 function get_info_waiter_bbdd($conn, $id_camarero) {
-    $id_camarero = mysqli_real_escape_string($conn, $id_camarero);
+    try {
+        // Preparar la consulta con un marcador de posición
+        $query = "SELECT * FROM tbl_camarero WHERE id_camarero = :id_camarero";
 
-    // Query para seleccionar la info del camarero
-    $query = "SELECT * FROM tbl_camarero WHERE id_camarero  = ?";
+        // Preparar el statement
+        $stmt = $conn->prepare($query);
 
-    $stmt_info = mysqli_stmt_init($conn);
+        // Enlazar los parámetros
+        $stmt->bindParam(':id_camarero', $id_camarero, PDO::PARAM_INT);
 
-    // Preparamos la consulta
-    if (mysqli_stmt_prepare($stmt_info, $query)) {
-        mysqli_stmt_bind_param($stmt_info, 'i', $id_camarero);
-        mysqli_stmt_execute($stmt_info);
+        // Ejecutar la consulta
+        $stmt->execute();
 
-        $result = mysqli_stmt_get_result($stmt_info);
-        $row = mysqli_fetch_assoc($result);
+        // Obtener el resultado
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Cerramos el stmt
-        mysqli_stmt_close($stmt_info);
-
-        return ['username' => $row['username'], 'name' => $row['nombre_camarero'], 'surname' => $row['apellidos_camarero']];
+        // Verificar si se encontró el camarero
+        if ($row) {
+            return [
+                'username' => $row['username'],
+                'name' => $row['nombre_camarero'],
+                'surname' => $row['apellidos_camarero']
+            ];
+        } else {
+            return null; // O manejar el caso en que no se encuentre el camarero
+        }
+    } catch (PDOException $e) {
+        // Manejar el error según sea necesario
+        throw new Exception("Error al recuperar la información del camarero: " . $e->getMessage());
     }
 }
 ?>
