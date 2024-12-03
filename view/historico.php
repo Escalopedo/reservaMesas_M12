@@ -5,7 +5,7 @@ if (empty($_SESSION['user_id'])) {
     exit();
 }
 
-require '../php/conexion.php';
+require '../php/conexion.php'; // Asumimos que esta variable $conn ya contiene una conexión PDO
 require_once '../php/functions.php';
 
 $id_camarero = $_SESSION['user_id'];
@@ -75,19 +75,21 @@ $query = "
         tbl_sala s ON m.id_sala = s.id_sala
     $conditions $order_by";
 
-$stmt_register = mysqli_stmt_init($conn);
-if (mysqli_stmt_prepare($stmt_register, $query)) {
-    if (!empty($params)) {
-        mysqli_stmt_bind_param($stmt_register, $param_types, ...$params);
-    }
-    mysqli_stmt_execute($stmt_register);
-    $result = mysqli_stmt_get_result($stmt_register);
-} else {
-    die("Error preparing statement: " . mysqli_error($conn));
-}
+try {
+    $stmt_register = $conn->prepare($query);
 
-mysqli_stmt_close($stmt_register);
-mysqli_close($conn);
+    if (!empty($params)) {
+        // PDO no requiere un tipo de parámetro explícito cuando bindParam o bindValue
+        // detectan el tipo automáticamente
+        $stmt_register->execute($params);
+    } else {
+        $stmt_register->execute();
+    }
+
+    $result = $stmt_register->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error executing query: " . $e->getMessage());
+}
 ?>
 
 <!DOCTYPE html>
@@ -128,7 +130,7 @@ mysqli_close($conn);
 
     <!-- Contenido principal -->
     <main class="container mt-5">
-        <?php if (mysqli_num_rows($result) == 0 && !filter_has_var(INPUT_POST, 'filtrosBuscando')): ?>
+        <?php if (empty($result) && !filter_has_var(INPUT_POST, 'filtrosBuscando')): ?>
             <div id="bind_result" class="text-center">
                 <h3>Ooops...</h3>
                 <h4>Parece que no hay reservas registradas...</h4>
@@ -153,7 +155,7 @@ mysqli_close($conn);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                    <?php foreach ($result as $row): ?>
                         <tr>
                             <th scope="row"><?php echo $row['id_ocupacion']; ?></th>
                             <td><?php echo htmlspecialchars($row['nombre_camarero'] . ' ' . $row['apellidos_camarero']); ?></td>
@@ -162,7 +164,7 @@ mysqli_close($conn);
                             <td><?php echo date("d-m-Y H:i", strtotime($row['fecha_inicio'])); ?></td>
                             <td><?php echo date("d-m-Y H:i", strtotime($row['fecha_final'])); ?></td>
                         </tr>
-                    <?php endwhile; ?>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         <?php endif; ?>
@@ -181,91 +183,55 @@ mysqli_close($conn);
             <div class="form-group row">
                 <label class="control-label col-sm-2" for="id_reserva">Id reserva:</label>
                 <div class="col-sm-10">
-                    <input type="number" class="form-control" id="id_reserva" placeholder="----------" name="id_reserva" value="<?php echo isset($_POST['id_reserva']) ? htmlspecialchars($_POST['id_reserva'], ENT_QUOTES, 'UTF-8') : ''; ?>">
+                    <input type="text" class="form-control" id="id_reserva" name="id_reserva">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="control-label col-sm-2" for="nombre_camarero">Nombre camarero:</label>
+                <label class="control-label col-sm-2" for="nombre_camarero">Nombre Camarero:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="nombre_camarero" placeholder="----------" name="nombre_camarero" value="<?php echo isset($_POST['nombre_camarero']) ? htmlspecialchars($_POST['nombre_camarero'], ENT_QUOTES, 'UTF-8') : ''; ?>">
+                    <input type="text" class="form-control" id="nombre_camarero" name="nombre_camarero">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="control-label col-sm-2" for="apellido_camarero">Apellido camarero:</label>
+                <label class="control-label col-sm-2" for="apellido_camarero">Apellido Camarero:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="apellido_camarero" placeholder="----------" name="apellido_camarero" value="<?php echo isset($_POST['apellido_camarero']) ? htmlspecialchars($_POST['apellido_camarero'], ENT_QUOTES, 'UTF-8') : ''; ?>">
+                    <input type="text" class="form-control" id="apellido_camarero" name="apellido_camarero">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="control-label col-sm-2" for="id_mesa">Id mesa:</label>
+                <label class="control-label col-sm-2" for="id_mesa">Mesa:</label>
                 <div class="col-sm-10">
-                    <input type="number" class="form-control" id="id_mesa" placeholder="----------" name="id_mesa" value="<?php echo isset($_POST['id_mesa']) ? htmlspecialchars($_POST['id_mesa'], ENT_QUOTES, 'UTF-8') : ''; ?>">
+                    <input type="text" class="form-control" id="id_mesa" name="id_mesa">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="control-label col-sm-2" for="ubicacion_sala">Ubicación sala:</label>
+                <label class="control-label col-sm-2" for="ubicacion_sala">Ubicación Sala:</label>
                 <div class="col-sm-10">
-                    <select class="form-control" id="ubicacion_sala" name="ubicacion_sala">
-                        <option value="">----------</option>
-                        <option value="Sala" <?php echo isset($_POST['ubicacion_sala']) && $_POST['ubicacion_sala'] === "Sala" ? "selected" : ""; ?>>Sala</option>
-                        <option value="Terraza exterior" <?php echo isset($_POST['ubicacion_sala']) && $_POST['ubicacion_sala'] === "Terraza exterior" ? "selected" : ""; ?>>Terraza exterior</option>
-                        <option value="Sala privada" <?php echo isset($_POST['ubicacion_sala']) && $_POST['ubicacion_sala'] === "Sala privada" ? "selected" : ""; ?>>Sala privada</option>
-                    </select>
+                    <input type="text" class="form-control" id="ubicacion_sala" name="ubicacion_sala">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="control-label col-sm-2" for="fecha_inicio">Fecha de inicio:</label>
+                <label class="control-label col-sm-2" for="fecha_inicio">Fecha Inicio:</label>
                 <div class="col-sm-10">
-                    <input type="datetime-local" class="form-control" id="fecha_inicio" name="fecha_inicio" value="<?php echo isset($_POST['fecha_inicio']) ? htmlspecialchars($_POST['fecha_inicio'], ENT_QUOTES, 'UTF-8') : ''; ?>">
+                    <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="control-label col-sm-2" for="fecha_final">Fecha final:</label>
+                <label class="control-label col-sm-2" for="fecha_final">Fecha Final:</label>
                 <div class="col-sm-10">
-                    <input type="datetime-local" class="form-control" id="fecha_final" name="fecha_final" value="<?php echo isset($_POST['fecha_final']) ? htmlspecialchars($_POST['fecha_final'], ENT_QUOTES, 'UTF-8') : ''; ?>">
+                    <input type="date" class="form-control" id="fecha_final" name="fecha_final">
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label class="control-label col-sm-2" for="column_name">Columna:</label>
-                <div class="col-sm-10">
-                    <select class="form-control" id="column_name" name="column_name">
-                        <option value="">----------</option>
-                        <option value="id_ocupacion" <?php echo isset($_POST['column_name']) && $_POST['column_name'] === "id_ocupacion" ? "selected" : ""; ?>>ID Reserva</option>
-                        <option value="nombre_camarero" <?php echo isset($_POST['column_name']) && $_POST['column_name'] === "nombre_camarero" ? "selected" : ""; ?>>Camarero</option>
-                        <option value="id_mesa" <?php echo isset($_POST['column_name']) && $_POST['column_name'] === "id_mesa" ? "selected" : ""; ?>>Mesa</option>
-                        <option value="ubicacion_sala" <?php echo isset($_POST['column_name']) && $_POST['column_name'] === "ubicacion_sala" ? "selected" : ""; ?>>Ubicación</option>
-                        <option value="fecha_inicio" <?php echo isset($_POST['column_name']) && $_POST['column_name'] === "fecha_inicio" ? "selected" : ""; ?>>Fecha de Inicio</option>
-                        <option value="fecha_final" <?php echo isset($_POST['column_name']) && $_POST['column_name'] === "fecha_final" ? "selected" : ""; ?>>Fecha Finalización</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="control-label col-sm-2" for="ordenar_registro">Ordenar:</label>
-                <div class="col-sm-10">
-                    <select class="form-control" id="ordenar_registro" name="ordenar_registro">
-                        <option value="">----------</option>
-                        <option value="Ascendente" <?php echo isset($_POST['ordenar_registro']) && $_POST['ordenar_registro'] === "Ascendente" ? "selected" : ""; ?>>Ascendente</option>
-                        <option value="Descendente" <?php echo isset($_POST['ordenar_registro']) && $_POST['ordenar_registro'] === "Descendente" ? "selected" : ""; ?>>Descendente</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-sm-offset-2 col-sm-10 contenedorBotonesAcciones">
-                    <button type="submit" class="btn botonesAcciones btn_custom_filterOK" id="botonAplicarFiltros" name="filtrosBuscando">
-                        <i class="fa-solid fa-check"></i>
-                    </button>
-                </div>
-            </div>
+            <button type="submit" class="btn btn-primary" name="filtrosBuscando">Filtrar</button>
         </form>
     </div>
+
 </body>
 </html>

@@ -18,7 +18,7 @@ require_once '../php/functions.php';
 // Obtenemos el ID del camarero desde la sesión
 $id_camarero = $_SESSION['user_id'];
 
-// Recojemos la información del usuario que está guardado en la BBDD
+// Función para obtener información del camarero
 $info_waiter = get_info_waiter_bbdd($conn, $id_camarero);
 
 ?>
@@ -325,20 +325,15 @@ $info_waiter = get_info_waiter_bbdd($conn, $id_camarero);
                             INNER JOIN 
                                 tbl_ocupacion ON tbl_mesa.id_mesa = tbl_ocupacion.id_mesa
                             WHERE 
-                                tbl_mesa.id_mesa = ?;";
+                                tbl_mesa.id_mesa = :id;";
 
-            $stmt_table_estado = mysqli_prepare($conn, $queryMesas);
-            mysqli_stmt_bind_param($stmt_table_estado, "i", $id);
+            $stmt_table_estado = $conn->prepare($queryMesas);
+            $stmt_table_estado->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt_table_estado->execute();
 
-            // Ejecutar la declaración
-            mysqli_stmt_execute($stmt_table_estado);
-
-            // Obtener el resultado
-            $result = mysqli_stmt_get_result($stmt_table_estado);
-            
-            if (mysqli_num_rows($result) > 0) {
+            if ($stmt_table_estado->rowCount() > 0) {
                 // Obtener los datos de la mesa
-                $mesaInfo = mysqli_fetch_assoc($result);
+                $mesaInfo = $stmt_table_estado->fetch(PDO::FETCH_ASSOC);
 
                 echo "Id de la mesa: " . $mesaInfo["id_mesa"] . "<br>";
                 echo "Numero de sillas: " . $mesaInfo["numero_sillas_mesa"] . "<br>";
@@ -355,19 +350,15 @@ $info_waiter = get_info_waiter_bbdd($conn, $id_camarero);
                                     INNER JOIN 
                                         tbl_camarero ON tbl_camarero.id_camarero = tbl_ocupacion.id_camarero
                                     WHERE 
-                                        tbl_mesa.id_mesa = ?
+                                        tbl_mesa.id_mesa = :id
                                     AND 
                                         tbl_ocupacion.estado_ocupacion LIKE 'Ocupado';";
 
-                    $stmt_camarero = mysqli_prepare($conn, $queryCamarero);
-                    mysqli_stmt_bind_param($stmt_camarero, "i", $id);
+                    $stmt_camarero = $conn->prepare($queryCamarero);
+                    $stmt_camarero->bindParam(':id', $id, PDO::PARAM_INT);
+                    $stmt_camarero->execute();
 
-                    // Ejecutar la declaración
-                    mysqli_stmt_execute($stmt_camarero);
-
-                    // Obtener el resultado
-                    $result = mysqli_stmt_get_result($stmt_camarero);
-                    $infoCamarero = mysqli_fetch_assoc($result);
+                    $infoCamarero = $stmt_camarero->fetch(PDO::FETCH_ASSOC);
 
                     echo "Camarero: " . $infoCamarero["nombre"] . " " . $infoCamarero['apellidos'] ."<br>";
                     echo'<br>';
@@ -377,12 +368,10 @@ $info_waiter = get_info_waiter_bbdd($conn, $id_camarero);
                     echo'<br>';
                     echo'<br>';
                     echo '<a href="../php/reservaMesas.php?id=' . $mesaInfo['id_mesa'] . '"><button class="btn btn-danger btn_custom_filter">OCUPAR</button></a>';
-
                 }
             } else {
                 echo "Esta mesa no existe";
             }
-
             ?>
     </div>
 
