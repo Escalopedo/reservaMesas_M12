@@ -8,8 +8,8 @@
 <body>
 <?php
 // Importamos los archivos necesarios
-require '../php/conexion.php'; 
-require_once '../php/functions.php'; 
+require '../php/conexion.php';
+require_once '../php/functions.php';
 
 $errors = [];
 
@@ -28,30 +28,27 @@ if (empty($_POST['user']) || empty($_POST['contrasena'])) {
 }
 
 // Recogemos las variables del formulario
-$username = mysqli_real_escape_string($conn, htmlspecialchars($_POST['user']));
+$username = htmlspecialchars($_POST['user']);
 $password = htmlspecialchars($_POST['contrasena']);
 
-// Preparamos la consulta
-$query = "SELECT id_camarero, password FROM tbl_camarero WHERE username = ?";
-$stmt = mysqli_stmt_init($conn);
+try {
+    // Preparamos la consulta con PDO
+    $query = "SELECT id_camarero, password FROM tbl_camarero WHERE username = :username";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':username', $username, PDO::PARAM_STR);
 
-if (mysqli_stmt_prepare($stmt, $query)) {
-    mysqli_stmt_bind_param($stmt, 's', $username);
-    mysqli_stmt_execute($stmt); 
-    $result = mysqli_stmt_get_result($stmt);
+    // Ejecutamos la consulta
+    $stmt->execute();
 
-    // Comprueba si hay resultado
-    if ($row = mysqli_fetch_assoc($result)) {
+    // Obtenemos el resultado
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    if ($row) {
         // Verificamos que la contraseña sea correcta
         if (password_verify($password, $row['password'])) {
             // En caso que sea correcto, inicializamos la variable de SESSION y redirijimos a mesas.php con el ID del usuario
             session_start();
             $_SESSION['user_id'] = $row['id_camarero'];
-
-            // Cerramos las consultas y la conexión
-            mysqli_stmt_close($stmt);
-            mysqli_close($conn);
 
             // Redirección a mesas.php con SweetAlert
             echo "<script type='text/javascript'>
@@ -67,15 +64,15 @@ if (mysqli_stmt_prepare($stmt, $query)) {
             exit();
         }
     }
-    
-    $errors[] = 'Credenciales incorrectas';
 
-    // Cerramos las consultas
-    mysqli_stmt_close($stmt);
+    // Si las credenciales son incorrectas
+    $errors[] = 'Credenciales incorrectas';
+} catch (PDOException $e) {
+    // En caso de error, añadir a los errores
+    $errors[] = 'Error en la base de datos: ' . $e->getMessage();
 }
 
-// Cerramos la conexión
-mysqli_close($conn);
+// Redirigimos en caso de error
 redirect_with_errors('../view/index.php', $errors);
 ?>
 </body>
