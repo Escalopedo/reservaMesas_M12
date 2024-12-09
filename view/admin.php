@@ -8,7 +8,11 @@ if ($_SESSION['user_role'] != 2) {  // Verificar que el rol sea Administrador (i
 require_once '../php/conexion.php'; // Conectar con la base de datos
 
 // Obtener todos los usuarios
-$query_usuarios = "SELECT * FROM tbl_usuarios";
+$query_usuarios = "
+    SELECT u.id_usuario, u.nombre_usuario, u.apellidos_usuario, u.username, r.nombre_rol 
+    FROM tbl_usuarios u
+    JOIN tbl_roles r ON u.id_rol = r.id_rol
+";
 $stmt_usuarios = $conn->prepare($query_usuarios);
 $stmt_usuarios->execute();
 $usuarios = $stmt_usuarios->fetchAll(PDO::FETCH_ASSOC);
@@ -76,20 +80,21 @@ $salas = $stmt_salas->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($usuarios as $usuario): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($usuario['id_usuario']) ?></td>
-                        <td><?= htmlspecialchars($usuario['nombre_usuario']) ?></td>
-                        <td><?= htmlspecialchars($usuario['apellidos_usuario']) ?></td>
-                        <td><?= htmlspecialchars($usuario['username']) ?></td>
-                        <td><?= htmlspecialchars($usuario['id_rol']) ?></td>
-                        <td>
-                            <a href="../php/cruds/usuarios/edit.php?id=<?= $usuario['id_usuario'] ?>" class="btn btn-warning btn-sm">Editar</a>
-                            <a href="../php/cruds/usuarios/delete.php?id=<?= $usuario['id_usuario'] ?>" class="btn btn-danger btn-sm">Eliminar</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
+    <?php foreach ($usuarios as $usuario): ?>
+        <tr>
+            <td><?= htmlspecialchars($usuario['id_usuario']) ?></td>
+            <td><?= htmlspecialchars($usuario['nombre_usuario']) ?></td>
+            <td><?= htmlspecialchars($usuario['apellidos_usuario']) ?></td>
+            <td><?= htmlspecialchars($usuario['username']) ?></td>
+            <td><?= htmlspecialchars($usuario['nombre_rol']) ?></td>
+            <td>
+                <a href="../php/cruds/usuarios/edit.php?id=<?= $usuario['id_usuario'] ?>" class="btn btn-warning btn-sm">Editar</a>
+                <a href="../php/cruds/usuarios/delete.php?id=<?= $usuario['id_usuario'] ?>" class="btn btn-danger btn-sm">Eliminar</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
             </tbody>
+
         </table>
 
         <a href="../php/cruds/usuarios/add.php" class="btn btn-primary my-3">Añadir Usuario</a>
