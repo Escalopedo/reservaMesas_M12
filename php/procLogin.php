@@ -52,7 +52,7 @@ try {
             $_SESSION['user_id'] = $row['id_usuario'];
             $_SESSION['user_role'] = $row['id_rol'];  // Guardamos el rol también
 
-            // Redirección dependiendo del rol
+            // Redirección dependiendo del rol, haremos la trampa con los ids porqué los sabemos
             if ($row['id_rol'] == 1) {
                 echo "<script type='text/javascript'>
                     Swal.fire({

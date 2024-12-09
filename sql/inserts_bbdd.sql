@@ -47,8 +47,7 @@ INSERT INTO tbl_mesa (id_sala, numero_sillas_mesa) VALUES
 
 INSERT INTO tbl_roles (nombre_rol) VALUES
 ('Camarero'),
-('Administrador'),
-('Cocinero');
+('Administrador');
 
 
 INSERT INTO tbl_horarios (hora_inicio, hora_fin) VALUES
