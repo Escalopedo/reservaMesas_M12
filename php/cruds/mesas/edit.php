@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Mesa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../css/cuestionarios.css">
 </head>
 <body>
     <div class="container">
@@ -77,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if (isset($error)): ?>
             <div class="alert alert-danger mt-3"><?= $error ?></div>
         <?php endif; ?>
+        <a href="../../../view/admin.php" class="btn btn-secondary mt-3">Volver a Administración</a>
     </div>
 </body>
 </html>

@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Error al añadir usuario: " . $e->getMessage();
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -38,32 +37,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/cuestionarios.css">
     <title>Añadir Usuario</title>
 </head>
 <body>
 
-    <h2>Añadir Usuario</h2>
-    <form action="add.php" method="POST">
-        <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" id="nombre" required><br>
+    <div class="container mt-5">
+        <h2>Añadir Usuario</h2>
+        <form action="add.php" method="POST">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input type="text" name="nombre" id="nombre" class="form-control" required>
+            </div>
 
-        <label for="apellidos">Apellidos:</label>
-        <input type="text" name="apellidos" id="apellidos" required><br>
+            <div class="mb-3">
+                <label for="apellidos" class="form-label">Apellidos:</label>
+                <input type="text" name="apellidos" id="apellidos" class="form-control" required>
+            </div>
 
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required><br>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" name="username" id="username" class="form-control" required>
+            </div>
 
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" id="password" required><br>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña:</label>
+                <input type="password" name="password" id="password" class="form-control" required>
+            </div>
 
-        <label for="id_rol">Rol:</label>
-        <select name="id_rol" id="id_rol" required>
-            <option value="1">Camarero</option>
-            <option value="2">Administrador</option>
-        </select><br>
+            <div class="mb-3">
+                <label for="id_rol" class="form-label">Rol:</label>
+                <select name="id_rol" id="id_rol" class="form-control" required>
+                    <option value="1">Camarero</option>
+                    <option value="2">Administrador</option>
+                </select>
+            </div>
 
-        <button type="submit">Añadir Usuario</button>
-    </form>
+            <button type="submit" class="btn btn-primary">Añadir Usuario</button>
+        </form>
+        <a href="../../../view/admin.php" class="btn btn-secondary mt-3">Volver a Administración</a>
+
+    </div>
 
 </body>
 </html>

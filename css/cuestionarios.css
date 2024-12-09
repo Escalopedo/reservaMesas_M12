@@ -1,0 +1,188 @@
+/* Fuentes y estilos base */
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: 'Lexend', sans-serif;
+    background-color: rgb(190, 190, 190);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Contenedor principal de la página */
+.container {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 600px;  /* Ancho máximo para que no se estire demasiado en pantallas grandes */
+}
+
+/* Estilos para los títulos */
+h2 {
+    font-size: 2.5rem;
+    color: rgb(177, 8, 8); /* Rojo oscuro */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Estilos para las etiquetas de los campos de formulario */
+.form-label {
+    font-size: 1.2rem;
+    color: rgb(177, 8, 8);
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+/* Estilos para los inputs y selects */
+.form-control {
+    border: 1px solid rgb(177, 8, 8);
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.form-control:focus {
+    border-color: rgb(133, 133, 133); /* Gris oscuro */
+    box-shadow: 0 0 8px rgba(177, 8, 8, 0.5);
+}
+
+/* Estilo para el botón */
+.btn-primary {
+    background-color: rgb(177, 8, 8);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-primary:hover {
+    background-color: rgb(133, 133, 133);
+}
+
+/* Estilos para el mensaje de error */
+.alert {
+    color: white;
+    background-color: rgb(177, 8, 8);
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+
+/* Estilo para el contenedor de selección (dropdown) */
+select.form-control {
+    padding: 10px;
+    font-size: 1rem;
+}
+
+/* Media Queries para hacer el diseño más responsive */
+
+@media (max-width: 768px) {
+    h2 {
+        font-size: 2rem;
+    }
+
+    .form-label {
+        font-size: 1rem;
+    }
+
+    .form-control {
+        padding: 8px;
+    }
+
+    .btn-primary {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .form-label {
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        padding: 6px;
+    }
+
+    .btn-primary {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}
+
+/* Estilo para centrar todo el contenido de los formularios */
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo de los elementos de los inputs y labels */
+label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+/* Estilo para los inputs */
+input[type="text"], input[type="password"], select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid rgb(177, 8, 8);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Estilo para el botón */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: rgb(177, 8, 8);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Efecto al pasar el ratón sobre el botón */
+button:hover {
+    background-color: rgb(133, 133, 133);
+}
+
+/* Estilo para los inputs y select cuando están deshabilitados */
+input:disabled, select:disabled {
+    background-color: #f2f2f2;
+}
+
+/* Estilo de los campos con errores (si los hay) */
+input:invalid, select:invalid {
+    border-color: red;
+}
+
+/* Margen inferior para los inputs y select */
+input, select {
+    margin-bottom: 15px;
+}
