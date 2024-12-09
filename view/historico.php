@@ -123,7 +123,8 @@ try {
         </div>
 
         <nav id="nav_header">
-            <a href="./mesas.php" class="btn btn-danger me-2 btn_custom_logOut">Reservar mesas</a>
+            <a href="./mesas.php" class="btn btn-danger me-2 btn_custom_logOut">Mesas</a>
+            <a href="./mesas.php" class="btn btn-danger me-2 btn_custom_logOut">Reservar</a>
             <a href="../php/cerrarSesion.php" class="btn btn-danger btn_custom_logOut m-1">Cerrar sesión</a>
         </nav>
     </header> 
