@@ -45,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <button type="submit" class="btn btn-primary">Añadir Sala</button>
         </form>
-        <a href="../../../view/admin.php" class="btn btn-secondary mt-3">Volver a Administración</a>
 
         <?php if (isset($error)): ?>
             <div class="alert alert-danger mt-3"><?= $error ?></div>

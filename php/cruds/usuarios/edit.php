@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="../../../css/cuestionarios.css">
+    <script src="../../../js/validUser.js" defer></script>
     <title>Editar Usuario</title>
 </head>
 <body>
@@ -58,17 +59,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form action="edit.php?id=<?= $usuario['id_usuario'] ?>" method="POST">
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" name="nombre" id="nombre" class="form-control" value="<?= htmlspecialchars($usuario['nombre_usuario']) ?>" required>
+                <input type="text" name="nombre" id="nombre" class="form-control" value="<?= htmlspecialchars($usuario['nombre_usuario']) ?>">
             </div>
 
             <div class="mb-3">
                 <label for="apellidos" class="form-label">Apellidos:</label>
-                <input type="text" name="apellidos" id="apellidos" class="form-control" value="<?= htmlspecialchars($usuario['apellidos_usuario']) ?>" required>
+                <input type="text" name="apellidos" id="apellidos" class="form-control" value="<?= htmlspecialchars($usuario['apellidos_usuario']) ?>">
             </div>
 
             <div class="mb-3">
                 <label for="username" class="form-label">Username:</label>
-                <input type="text" name="username" id="username" class="form-control" value="<?= htmlspecialchars($usuario['username']) ?>" required>
+                <input type="text" name="username" id="username" class="form-control" value="<?= htmlspecialchars($usuario['username']) ?>">
             </div>
 
             <div class="mb-3">
