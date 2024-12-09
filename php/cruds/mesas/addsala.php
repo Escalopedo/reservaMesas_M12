@@ -33,14 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Añadir Sala</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../css/cuestionarios.css">
+    <script src="../../../js/validUser.js" defer></script>
 </head>
 <body>
     <div class="container">
         <h2>Añadir Sala</h2>
-        <form method="POST">
+        <form method="POST" onsubmit="return validarFormulario(event)">
             <div class="mb-3">
                 <label for="ubicacion_sala" class="form-label">Ubicación de la Sala</label>
-                <input type="text" name="ubicacion_sala" id="ubicacion_sala" class="form-control" required>
+                <input type="text" name="ubicacion_sala" id="ubicacion_sala" class="form-control">
             </div>
 
             <button type="submit" class="btn btn-primary">Añadir Sala</button>

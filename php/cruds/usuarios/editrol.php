@@ -56,14 +56,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Editar Rol</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="../../../css/cuestionarios.css">
+    <script src="../../../js/validUser.js" defer></script>
 </head>
 <body>
     <div class="container">
         <h2>Editar Rol</h2>
-        <form action="editrol.php?id=<?php echo $role['id_rol']; ?>" method="POST">
+        <form action="editrol.php?id=<?php echo $role['id_rol']; ?>" method="POST" onsubmit="return validarFormulario(event)">
             <div class="mb-3">
                 <label for="nombre_rol" class="form-label">Nombre del Rol:</label>
-                <input type="text" name="nombre_rol" id="nombre_rol" class="form-control" value="<?php echo $role['nombre_rol']; ?>" required>
+                <input type="text" name="nombre_rol" id="nombre_rol" class="form-control" value="<?php echo $role['nombre_rol']; ?>">
             </div>
             <button type="submit" class="btn btn-primary">Actualizar Rol</button>
         </form>

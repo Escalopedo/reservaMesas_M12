@@ -51,14 +51,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Editar Mesa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../css/cuestionarios.css">
+    <script src="../../../js/validUser.js" defer></script>
 </head>
 <body>
     <div class="container">
         <h2>Editar Mesa</h2>
-        <form method="POST">
+        <form method="POST" onsubmit="return validarFormulario(event)">
             <div class="mb-3">
                 <label for="numero_sillas" class="form-label">Número de Sillas</label>
-                <input type="number" name="numero_sillas" id="numero_sillas" class="form-control" value="<?= $mesa['numero_sillas_mesa'] ?>" required>
+                <input type="number" name="numero_sillas" id="numero_sillas" class="form-control" value="<?= $mesa['numero_sillas_mesa'] ?>">
             </div>
 
             <div class="mb-3">
