@@ -57,7 +57,7 @@ $info_waiter = get_info_waiter_bbdd($conn, $id_camarero);
             <!-- Contenedor de navegación -->
             <nav id="nav_header">
                 <a href="./historico.php" class="btn btn-danger me-2 btn_custom_logOut">Histórico</a>
-                <a href="./mesas.php" class="btn btn-danger me-2 btn_custom_logOut">Reservar</a>
+                <a href="./reservas.php" class="btn btn-danger me-2 btn_custom_logOut">Reservar</a>
                 <a href="../php/cerrarSesion.php" class="btn btn-danger btn_custom_logOut m-1">Cerrar sesión</a>
             </nav>
         </header>
