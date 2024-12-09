@@ -120,6 +120,8 @@ $salas = $stmt_salas->fetchAll(PDO::FETCH_ASSOC);
 
         <a href="../php/cruds/usuarios/addrol.php" class="btn btn-primary my-3">Añadir Rol</a>
 
+        <hr>
+
         <!-- Tabla de mesas -->
         <h2 class="my-4">Gestión de Mesas</h2>
         <table class="table table-striped">
