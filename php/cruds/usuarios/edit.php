@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bindParam(':id_usuario', $id_usuario);
         $stmt->execute();
 
-        header('Location: ../../../view/admin.php'); 
+        header('Location: ../../../view/admin.php');
     } catch (PDOException $e) {
         echo "Error al actualizar usuario: " . $e->getMessage();
     }
@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,11 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="../../../js/validUser.js" defer></script>
     <title>Editar Usuario</title>
 </head>
+
 <body>
 
     <div class="container mt-5">
         <h2>Editar Usuario</h2>
-        <form action="edit.php?id=<?= $usuario['id_usuario'] ?>" method="POST">
+        <form action="edit.php?id=<?= $usuario['id_usuario'] ?>" method="POST" onsubmit="return validarFormulario(event)">
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
                 <input type="text" name="nombre" id="nombre" class="form-control" value="<?= htmlspecialchars($usuario['nombre_usuario']) ?>">
@@ -74,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="mb-3">
                 <label for="id_rol" class="form-label">Rol:</label>
-                <select name="id_rol" id="id_rol" class="form-control" required>
+                <select name="id_rol" id="id_rol" class="form-control">
                     <option value="1" <?= $usuario['id_rol'] == 1 ? 'selected' : '' ?>>Camarero</option>
                     <option value="2" <?= $usuario['id_rol'] == 2 ? 'selected' : '' ?>>Administrador</option>
                 </select>
@@ -86,4 +88,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
 </body>
+
 </html>
