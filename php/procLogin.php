@@ -9,21 +9,22 @@
 <?php
 // Importamos los archivos necesarios
 require '../php/conexion.php';
-require_once '../php/functions.php';
+require '../php/roles.php';  // Este archivo debe tener los roles definidos si es necesario
+require_once '../php/functions.php'; // Funciones auxiliares como redirección
 
 $errors = [];
 
 // Validamos que el formulario se envíe correctamente
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $errors[] = 'Solicitud inválida.';
-    redirect_with_errors('../php/cerrarSesion.php', $errors);
+    redirect_with_errors('../php/cerrarSesion.php', $errors); // Redirigir en caso de error
     exit();
 }
 
 // Validamos que los campos no estén vacíos
 if (empty($_POST['user']) || empty($_POST['contrasena'])) {
     $errors[] = 'Usuario y contraseña son obligatorios.';
-    redirect_with_errors('../php/cerrarSesion.php', $errors);
+    redirect_with_errors('../php/cerrarSesion.php', $errors); // Redirigir en caso de error
     exit();
 }
 
@@ -46,22 +47,36 @@ try {
     if ($row) {
         // Verificamos que la contraseña sea correcta
         if (password_verify($password, $row['password'])) {
-            // En caso que sea correcto, inicializamos la variable de SESSION y redirigimos a mesas.php con el ID del usuario
+            // Si la contraseña es correcta, inicializamos la variable de SESSION y redirigimos
             session_start();
             $_SESSION['user_id'] = $row['id_usuario'];
-            $_SESSION['user_role'] = $row['id_rol'];  // Guardamos el rol también, por si se necesita para redirigir a diferentes páginas.
+            $_SESSION['user_role'] = $row['id_rol'];  // Guardamos el rol también
 
-            // Redirección a mesas.php con SweetAlert
-            echo "<script type='text/javascript'>
-                Swal.fire({
-                    title: 'Inicio de sesión',
-                    text: '¡Has iniciado sesión correctamente!',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(function() {
-                    window.location.href = '../view/mesas.php';  // Redirige siempre a mesas.php, puedes personalizar la redirección si se necesitan diferentes roles.
-                });
-                </script>";
+            // Redirección dependiendo del rol
+            if ($row['id_rol'] == 1) {  // Si el rol es Administrador (suponiendo que el rol 1 es Admin)
+                echo "<script type='text/javascript'>
+                    Swal.fire({
+                        title: 'Inicio de sesión',
+                        text: '¡Has iniciado sesión correctamente como Camarero!',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        window.location.href = '../view/mesas.php';  
+                    });
+                    </script>";
+            }   
+            if ($row['id_rol'] == 2) {
+                echo "<script type='text/javascript'>
+                    Swal.fire({
+                        title: 'Inicio de sesión',
+                        text: '¡Has iniciado sesión correctamente como Administrador!',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        window.location.href = '../view/admin.php'; 
+                    });
+                    </script>";
+            }
             exit();
         }
     }
