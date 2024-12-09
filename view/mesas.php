@@ -341,14 +341,14 @@ $info_waiter = get_info_waiter_bbdd($conn, $id_camarero);
 
                 if ($_SESSION['ARRAYocupaciones'][$mesaInfo["id_mesa"]] === "Ocupado") {
                     $queryCamarero = "SELECT 
-                                        tbl_camarero.nombre_camarero AS nombre,
-                                        tbl_camarero.apellidos_camarero AS apellidos
+                                        tbl_usuarios.nombre_usuario AS nombre,
+                                        tbl_usuarios.apellidos_usuario AS apellidos
                                     FROM 
                                         tbl_mesa
                                     INNER JOIN 
                                         tbl_ocupacion ON tbl_mesa.id_mesa = tbl_ocupacion.id_mesa
                                     INNER JOIN 
-                                        tbl_camarero ON tbl_camarero.id_camarero = tbl_ocupacion.id_camarero
+                                        tbl_usuarios ON tbl_usuarios.id_usuario = tbl_ocupacion.id_usuario
                                     WHERE 
                                         tbl_mesa.id_mesa = :id
                                     AND 

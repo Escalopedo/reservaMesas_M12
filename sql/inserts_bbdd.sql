@@ -45,6 +45,12 @@ INSERT INTO tbl_mesa (id_sala, numero_sillas_mesa) VALUES
 (3, 2), 
 (8, 4); 
 
+INSERT INTO tbl_roles (nombre_rol) VALUES
+('Camarero'),
+('Administrador'),
+('Cocinero');
+
+
 INSERT INTO tbl_horarios (hora_inicio, hora_fin) VALUES
 ('12:00:00', '13:00:00'),
 ('13:00:00', '14:00:00'),
@@ -52,39 +58,36 @@ INSERT INTO tbl_horarios (hora_inicio, hora_fin) VALUES
 ('20:00:00', '21:00:00'),
 ('21:00:00', '22:00:00');
 
-
-INSERT INTO tbl_ocupacion (id_mesa, id_usuario, fecha_inicio, fecha_final, fecha_reserva, id_horario, tipo_ocupacion, estado_ocupacion) VALUES
-(1, 1, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(2, 2, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(3, 3, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(4, 4, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(5, 1, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(6, 2, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(7, 3, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(8, 4, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(9, 1, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(10, 2, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(11, 3, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(12, 4, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(13, 1, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(14, 2, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(15, 3, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(16, 4, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(17, 1, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(18, 2, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(19, 3, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(20, 4, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(21, 1, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(22, 2, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(23, 3, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(24, 4, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(25, 1, NULL, NULL, NULL, NULL, 'Actual', 'Disponible'),
-(26, 2, NULL, NULL, NULL, NULL, 'Actual', 'Disponible');
+INSERT INTO tbl_reservas (id_mesa, id_usuario, fecha_reserva, id_horario, estado_reserva) VALUES
+(1, 1, '2024-12-10', 1, 'Confirmada'),
+(4, 2, '2024-12-10', 2, 'Confirmada'),
+(5, 3, '2024-12-11', 3, 'Confirmada'),
+(6, 4, '2024-12-12', 4, 'Confirmada'),
+(7, 5, '2024-12-13', 5, 'Confirmada');
 
 
-INSERT INTO tbl_ocupacion (id_mesa, id_usuario, fecha_inicio, fecha_final, fecha_reserva, id_horario, tipo_ocupacion, estado_ocupacion) VALUES
-(1, 5, '2024-12-04 12:00:00', '2024-12-04 13:00:00', '2024-12-04 12:00:00', 1, 'Reserva', 'Confirmada'),
-(2, 5, '2024-12-04 13:00:00', '2024-12-04 14:00:00', '2024-12-04 13:00:00', 2, 'Reserva', 'Confirmada'),
-(3, 5, '2024-12-04 14:00:00', '2024-12-04 15:00:00', '2024-12-04 14:00:00', 3, 'Reserva', 'Confirmada'),
-(4, 5, '2024-12-04 20:00:00', '2024-12-04 21:00:00', '2024-12-04 20:00:00', 4, 'Reserva', 'Confirmada'),
-(5, 5, '2024-12-04 21:00:00', '2024-12-04 22:00:00', '2024-12-04 21:00:00', 5, 'Reserva', 'Confirmada');
+INSERT INTO tbl_ocupacion (id_mesa, id_usuario, fecha_inicio, fecha_final, id_reserva, estado_ocupacion) VALUES
+(1, 1, '2024-12-10 10:00:00', '2024-12-10 12:00:00', 1, 'Ocupado'),
+(2, 1, '2024-12-10 10:00:00', '2024-12-10 12:00:00', 1, 'Ocupado'),
+(3, 1, '2024-12-10 10:00:00', '2024-12-10 12:00:00', 1, 'Ocupado'),
+(4, 2, '2024-12-10 12:00:00', '2024-12-10 14:00:00', 2, 'Ocupado'),
+(5, 3, '2024-12-11 14:00:00', '2024-12-11 16:00:00', 3, 'Ocupado'),
+(6, 4, '2024-12-12 16:00:00', '2024-12-12 18:00:00', 4, 'Ocupado'),
+(7, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Ocupado'),
+(8, 1, '2024-12-10 10:00:00', '2024-12-10 12:00:00', 1, 'Disponible'),
+(9, 2, '2024-12-10 12:00:00', '2024-12-10 14:00:00', 2, 'Disponible'),
+(10, 3, '2024-12-11 14:00:00', '2024-12-11 16:00:00', 3, 'Disponible'),
+(11, 4, '2024-12-12 16:00:00', '2024-12-12 18:00:00', 4, 'Disponible'),
+(12, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Disponible'),
+(13, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Disponible'),
+(14, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Disponible'),
+(15, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Disponible'),
+(16, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Disponible'),
+(17, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Disponible'),
+(18, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Disponible'),
+(19, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Disponible'),
+(20, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Disponible'),
+(21, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Disponible'),
+(22, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Disponible'),
+(23, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Disponible'),
+(24, 5, '2024-12-13 18:00:00', '2024-12-13 20:00:00', 5, 'Disponible');

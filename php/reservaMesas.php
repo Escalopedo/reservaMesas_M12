@@ -14,20 +14,20 @@ require '../php/conexion.php';
 
 if (isset($_GET['id'])) {
     $id_mesa = htmlspecialchars($_GET['id']);
-    $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id']; // Usamos el ID de usuario de la sesión
 
     try {
         // Preparar la consulta para actualizar el estado de la mesa
         $update_query_ocu = "
             UPDATE tbl_ocupacion
-            SET estado_ocupacion = 'Ocupado', fecha_inicio = CURRENT_TIMESTAMP, id_camarero = :id_camarero
+            SET estado_ocupacion = 'Ocupado', fecha_inicio = CURRENT_TIMESTAMP, id_usuario = :id_usuario
             WHERE id_mesa = :id_mesa AND estado_ocupacion = 'Disponible';
         ";
 
         $stmt = $conn->prepare($update_query_ocu);
 
         // Enlazar los parámetros
-        $stmt->bindParam(':id_camarero', $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(':id_usuario', $user_id, PDO::PARAM_INT); // Usamos el id_usuario
         $stmt->bindParam(':id_mesa', $id_mesa, PDO::PARAM_INT);
 
         // Ejecutar la consulta

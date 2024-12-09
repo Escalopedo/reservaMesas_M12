@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>process</title>
+    <title>Inicio de sesión</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -32,8 +32,8 @@ $username = htmlspecialchars($_POST['user']);
 $password = htmlspecialchars($_POST['contrasena']);
 
 try {
-    // Preparamos la consulta con PDO
-    $query = "SELECT id_camarero, password FROM tbl_camarero WHERE username = :username";
+    // Preparamos la consulta con PDO para tbl_usuarios
+    $query = "SELECT id_usuario, password, id_rol FROM tbl_usuarios WHERE username = :username";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':username', $username, PDO::PARAM_STR);
 
@@ -46,9 +46,10 @@ try {
     if ($row) {
         // Verificamos que la contraseña sea correcta
         if (password_verify($password, $row['password'])) {
-            // En caso que sea correcto, inicializamos la variable de SESSION y redirijimos a mesas.php con el ID del usuario
+            // En caso que sea correcto, inicializamos la variable de SESSION y redirigimos a mesas.php con el ID del usuario
             session_start();
-            $_SESSION['user_id'] = $row['id_camarero'];
+            $_SESSION['user_id'] = $row['id_usuario'];
+            $_SESSION['user_role'] = $row['id_rol'];  // Guardamos el rol también, por si se necesita para redirigir a diferentes páginas.
 
             // Redirección a mesas.php con SweetAlert
             echo "<script type='text/javascript'>
@@ -58,7 +59,7 @@ try {
                     icon: 'success',
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location.href = '../view/mesas.php';
+                    window.location.href = '../view/mesas.php';  // Redirige siempre a mesas.php, puedes personalizar la redirección si se necesitan diferentes roles.
                 });
                 </script>";
             exit();

@@ -8,6 +8,16 @@ CREATE TABLE tbl_roles (
     nombre_rol VARCHAR(50) NOT NULL UNIQUE
 );
 
+-- Tabla de reservas
+CREATE TABLE tbl_reservas (
+    id_reserva INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    id_mesa INT NOT NULL,
+    id_usuario INT NOT NULL, 
+    fecha_reserva DATE NOT NULL, -- Fecha de la reserva
+    id_horario INT NOT NULL, -- Franja horaria de la reserva
+    estado_reserva ENUM('Pendiente', 'Confirmada', 'Cancelada', 'Finalizada') NOT NULL DEFAULT 'Pendiente'
+);
+
 -- Tabla de usuarios
 CREATE TABLE tbl_usuarios (
     id_usuario INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -43,12 +53,10 @@ CREATE TABLE tbl_horarios (
 CREATE TABLE tbl_ocupacion (
     id_ocupacion INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     id_mesa INT NOT NULL,
-    id_usuario INT NULL,
+    id_usuario INT NULL,  -- Usuario que está ocupando la mesa
     fecha_inicio DATETIME NULL,
     fecha_final DATETIME NULL,
-    fecha_reserva DATE NULL, -- Fecha de la reserva
-    id_horario INT NULL, -- Franja horaria de la reserva
-    tipo_ocupacion ENUM('Actual', 'Reserva') NOT NULL DEFAULT 'Actual',
+    id_reserva INT NULL,  -- Enlazamos con tbl_reservas
     estado_ocupacion VARCHAR(25) NOT NULL
 );
 
@@ -74,7 +82,20 @@ ALTER TABLE tbl_ocupacion
 ADD CONSTRAINT FK_ocupacion_usuario
 FOREIGN KEY (id_usuario) REFERENCES tbl_usuarios (id_usuario);
 
--- Relación entre tbl_ocupacion y tbl_horarios
+-- Relación entre tbl_ocupacion y tbl_reservas
 ALTER TABLE tbl_ocupacion
-ADD CONSTRAINT FK_ocupacion_horario
-FOREIGN KEY (id_horario) REFERENCES tbl_horarios (id_horario);
+    ADD CONSTRAINT FK_ocupacion_reserva
+    FOREIGN KEY (id_reserva) REFERENCES tbl_reservas(id_reserva);
+
+-- Claves foráneas para tbl_reservas
+ALTER TABLE tbl_reservas
+    ADD CONSTRAINT FK_reserva_mesa
+    FOREIGN KEY (id_mesa) REFERENCES tbl_mesa(id_mesa);
+
+ALTER TABLE tbl_reservas
+    ADD CONSTRAINT FK_reserva_usuario
+    FOREIGN KEY (id_usuario) REFERENCES tbl_usuarios(id_usuario);
+
+ALTER TABLE tbl_reservas
+    ADD CONSTRAINT FK_reserva_horario
+    FOREIGN KEY (id_horario) REFERENCES tbl_horarios(id_horario);
