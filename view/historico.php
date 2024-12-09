@@ -58,8 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && filter_has_var(INPUT_POST, 'filtros
 $query = "
     SELECT 
         o.id_ocupacion,
-        c.nombre_camarero,
-        c.apellidos_camarero,
+        c.nombre_usuario,
+        c.apellidos_usuario,
         m.id_mesa,
         s.ubicacion_sala,
         o.fecha_inicio,
@@ -68,7 +68,7 @@ $query = "
     FROM 
         tbl_ocupacion o
     INNER JOIN 
-        tbl_camarero c ON o.id_camarero = c.id_camarero
+        tbl_usuarios c ON o.id_usuario = c.id_usuario
     INNER JOIN 
         tbl_mesa m ON o.id_mesa = m.id_mesa
     INNER JOIN 
@@ -158,7 +158,7 @@ try {
                     <?php foreach ($result as $row): ?>
                         <tr>
                             <th scope="row"><?php echo $row['id_ocupacion']; ?></th>
-                            <td><?php echo htmlspecialchars($row['nombre_camarero'] . ' ' . $row['apellidos_camarero']); ?></td>
+                            <td><?php echo htmlspecialchars($row['nombre_usuario'] . ' ' . $row['apellidos_usuario']); ?></td>
                             <td><?php echo htmlspecialchars($row['id_mesa']); ?></td>
                             <td><?php echo htmlspecialchars($row['ubicacion_sala']); ?></td>
                             <td><?php echo date("d-m-Y H:i", strtotime($row['fecha_inicio'])); ?></td>
