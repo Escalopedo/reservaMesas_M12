@@ -126,13 +126,6 @@ try {
             <a href="./mesas.php" class="btn btn-danger me-2 btn_custom_logOut">Mesas</a>
             <a href="./reservas.php" class="btn btn-danger me-2 btn_custom_logOut">Reservar</a>
             <a href="../php/cerrarSesion.php" class="btn btn-danger btn_custom_logOut m-1">Cerrar sesión</a>
-            <?php
-                if ($_SESSION['user_role'] = 2) {  
-                    ?>
-                    <a href="./admin.php" class="btn btn-danger btn_custom_logOut m-1">ADMIN</a>
-                <?php              
-                }
-                ?>
         </nav>
     </header> 
 
