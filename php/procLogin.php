@@ -9,8 +9,8 @@
 <?php
 // Importamos los archivos necesarios
 require '../php/conexion.php';
-require '../php/roles.php';  // Este archivo debe tener los roles definidos si es necesario
-require_once '../php/functions.php'; // Funciones auxiliares como redirección
+require '../php/roles.php'; 
+require_once '../php/functions.php';
 
 $errors = [];
 
@@ -53,7 +53,7 @@ try {
             $_SESSION['user_role'] = $row['id_rol'];  // Guardamos el rol también
 
             // Redirección dependiendo del rol
-            if ($row['id_rol'] == 1) {  // Si el rol es Administrador (suponiendo que el rol 1 es Admin)
+            if ($row['id_rol'] == 1) {
                 echo "<script type='text/javascript'>
                     Swal.fire({
                         title: 'Inicio de sesión',
