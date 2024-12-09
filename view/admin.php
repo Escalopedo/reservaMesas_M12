@@ -79,5 +79,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </table>
     </div>
 
+    <a href="../php/cruds/usuarios/add.php">Añadir Usuario</a>
+
 </body>
 </html>
