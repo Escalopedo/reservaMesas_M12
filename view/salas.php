@@ -77,6 +77,8 @@ $mesas = $stmt_mesas->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($mesas as $mesa) {
                             $mesa_id = $mesa['id_mesa'];
                             $estado_mesa = isset($ocupaciones[$mesa_id]) ? $ocupaciones[$mesa_id] : 'Disponible';
+                            $numero_sillas = $mesa['numero_sillas_mesa'];
+
                             echo "</br>"; 
                             echo "</br>"; 
                             echo "</br>"; 
@@ -89,9 +91,41 @@ $mesas = $stmt_mesas->fetchAll(PDO::FETCH_ASSOC);
 
                             // Mostrar el botón para ocupar o liberar según el estado
                             if ($estado_mesa === 'Disponible') {
-                                echo "<a href='../php/reservaMesas.php?id=$mesa_id' class='btn btn-success'>Ocupar</a>";
+                                // Verificar el número de sillas y asignar una imagen diferente según sea el caso
+                                if ($numero_sillas == 2) {
+                                    $imagen = '../img/mesaD2.png'; // Imagen para 2 personas
+                                } elseif ($numero_sillas == 4) {
+                                    $imagen = '../img/mesaD4.png'; // Imagen para 4 personas
+                                } elseif ($numero_sillas == 6) {
+                                    $imagen = '../img/mesaD6.png'; // Imagen para 6 personas
+                                } elseif ($numero_sillas == 8) {
+                                    $imagen = '../img/mesaD8.png'; // Imagen para 8 personas
+                                } else {
+                                    $imagen = '../img/mesaD6.png'; // Imagen por defecto si el número de sillas no es 2, 4, 6 ni 8
+                                }
+                                
+                                // Mostrar la imagen correspondiente a la mesa disponible
+                                echo "<a href='../php/reservaMesas.php?id=$mesa_id' class='btn btn-success'>
+                                        <img src='$imagen' alt='Mesa Disponible' class='mesa' style='display: block;' id='$mesa_id'>
+                                      </a>";
                             } elseif ($estado_mesa === 'Ocupado') {
-                                echo "<a href='../php/liberarMesas.php?id=$mesa_id' class='btn btn-danger'>Liberar</a>";
+                                // Verificar el número de sillas y asignar una imagen diferente según sea el caso
+                                if ($numero_sillas == 2) {
+                                    $imagen = '../img/mesaD2ocupada.png'; // Imagen para 2 personas ocupada
+                                } elseif ($numero_sillas == 4) {
+                                    $imagen = '../img/mesaD4ocupada.png'; // Imagen para 4 personas ocupada
+                                } elseif ($numero_sillas == 6) {
+                                    $imagen = '../img/mesaD6ocupada.png'; // Imagen para 6 personas ocupada
+                                } elseif ($numero_sillas == 8) {
+                                    $imagen = '../img/mesaD8ocupada.png'; // Imagen para 8 personas ocupada
+                                } else {
+                                    $imagen = '../img/mesaD6ocupada.png'; // Imagen por defecto si el número de sillas no es 2, 4, 6 ni 8
+                                }
+                                
+                                // Mostrar la imagen correspondiente a la mesa ocupada
+                                echo "<a href='../php/liberarMesas.php?id=$mesa_id' class='btn btn-danger'>
+                                        <img src='$imagen' alt='Mesa Ocupada' class='mesa' style='display: block;' id='$mesa_id'>
+                                      </a>";
                             }
                             
                             echo "</div>";
