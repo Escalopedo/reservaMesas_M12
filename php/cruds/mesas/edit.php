@@ -7,16 +7,17 @@ if ($_SESSION['user_role'] != 2) {  // Verificar que el rol sea Administrador (i
 
 require_once '../../conexion.php';
 
-// Obtener las mesas
-$id_mesa = $_GET['id'];  // Obtener el ID de la mesa desde la URL
+// Obtener el ID de la mesa desde la URL
+$id_mesa = $_GET['id'];  
 
+// Obtener los detalles de la mesa
 $query_mesa = "SELECT * FROM tbl_mesa WHERE id_mesa = :id_mesa";
 $stmt_mesa = $conn->prepare($query_mesa);
 $stmt_mesa->bindParam(':id_mesa', $id_mesa);
 $stmt_mesa->execute();
 $mesa = $stmt_mesa->fetch(PDO::FETCH_ASSOC);
 
-// Obtener todas las salas
+// Obtener todas las salas disponibles
 $query_salas = "SELECT * FROM tbl_sala";
 $stmt_salas = $conn->prepare($query_salas);
 $stmt_salas->execute();
@@ -30,11 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validar el número de sillas
     $valid_sillas = [2, 4, 6, 8];
     if (!in_array($numero_sillas, $valid_sillas)) {
-        $error = "No intentes petar el código.";
-    }
-    // Validar el ID de la sala
-    elseif ($id_sala < 1 || $id_sala > 9) {
-        $error = "No intentes petar el código.";
+        $error = "Número de sillas no válido. Selecciona 2, 4, 6 o 8.";
     } else {
         // Actualizar los datos de la mesa en la base de datos
         $query_update = "UPDATE tbl_mesa SET id_sala = :id_sala, numero_sillas_mesa = :numero_sillas WHERE id_mesa = :id_mesa";

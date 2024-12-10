@@ -7,7 +7,7 @@ if ($_SESSION['user_role'] != 2) {  // Verificar que el rol sea Administrador (i
 
 require_once '../../conexion.php';
 
-// Obtener todas las salas para elegir en el formulario
+// Obtener todas las salas disponibles para elegir en el formulario
 $query_salas = "SELECT * FROM tbl_sala";
 $stmt_salas = $conn->prepare($query_salas);
 $stmt_salas->execute();
@@ -22,10 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $valid_sillas = [2, 4, 6, 8];
     if (!in_array($numero_sillas, $valid_sillas)) {
         $error = "No intentes petar el código.";
-    }
-    // Validar el ID de la sala (que esté entre 1 y 9)
-    elseif ($id_sala < 1 || $id_sala > 9) {
-        $error = "No intentes petar el código.";
+    } 
+
+    // Validar que el id_sala esté entre las opciones válidas obtenidas de la base de datos
+    elseif (!in_array($id_sala, array_column($salas, 'id_sala'))) {
+        $error = "Sala no válida. Selecciona una sala existente.";
     } else {
         // Insertar la nueva mesa en la base de datos
         $query_insert = "INSERT INTO tbl_mesa (id_sala, numero_sillas_mesa) VALUES (:id_sala, :numero_sillas)";
@@ -68,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="mb-3">
                 <label for="id_sala" class="form-label">Sala</label>
-                <select name="id_sala" id="id_sala" class="form-control" required>
+                <select name="id_sala" id="id_sala" class="form-control">
                     <?php foreach ($salas as $sala): ?>
                         <option value="<?= $sala['id_sala'] ?>"><?= $sala['ubicacion_sala'] ?></option>
                     <?php endforeach; ?>
