@@ -65,9 +65,9 @@ $info_waiter = get_info_waiter_bbdd($conn, $id_camarero);
                     $stmt_salas->execute();
                     $salas = $stmt_salas->fetchAll(PDO::FETCH_ASSOC);
 
-                    // Mostrar cada sala
+                    // Mostrar cada sala con imagen de fondo
                     foreach ($salas as $sala) {
-                        echo "<div class='sala' style='cursor: pointer;'>";
+                        echo "<div class='sala' style='cursor: pointer; background-size: cover; background-position: center;'>";
                         echo "<a href='salas.php?id_sala=" . $sala['id_sala'] . "'>";
                         echo "<h4>" . htmlspecialchars($sala['ubicacion_sala']) . "</h4>";
                         echo "</a>";

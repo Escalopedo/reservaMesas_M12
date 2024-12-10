@@ -66,9 +66,6 @@ $mesas = $stmt_mesas->fetchAll(PDO::FETCH_ASSOC);
             <a href="../php/cerrarSesion.php" class="btn btn-danger btn_custom_logOut m-1">Cerrar sesión</a>
         </nav>
     </header>
-
-
-    <main id="mesas_main">
         <div id="mapaRestaurante_contenedor">
             <div id="divMesas">
                 <h3>Mesas de la Sala</h3>
@@ -81,14 +78,16 @@ $mesas = $stmt_mesas->fetchAll(PDO::FETCH_ASSOC);
 
                             echo "</br>"; 
                             echo "</br>"; 
+                            echo "</br>";
                             echo "</br>"; 
+                            echo "</br>"; 
+
+ 
 
 
                             echo "<div class='mesa' data-id-mesa='$mesa_id' style='cursor: pointer;'>";
                             echo "<h4>" . htmlspecialchars('Mesa ' . $mesa_id) . "</h4>";
                             echo "<p>Capacidad: " . htmlspecialchars($mesa['numero_sillas_mesa']) . " personas</p>";
-                            echo "<p><strong>Estado: </strong>" . htmlspecialchars($estado_mesa) . "</p>";
-
                             // Mostrar el botón para ocupar o liberar según el estado
                             if ($estado_mesa === 'Disponible') {
                                 // Verificar el número de sillas y asignar una imagen diferente según sea el caso
@@ -137,6 +136,8 @@ $mesas = $stmt_mesas->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </main>
+
+
 
     <script src="../js/modal.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
