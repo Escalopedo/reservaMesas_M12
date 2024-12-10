@@ -18,17 +18,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $numero_sillas = $_POST['numero_sillas'];
     $id_sala = $_POST['id_sala'];
 
-    // Insertar la nueva mesa en la base de datos
-    $query_insert = "INSERT INTO tbl_mesa (id_sala, numero_sillas_mesa) VALUES (:id_sala, :numero_sillas)";
-    $stmt_insert = $conn->prepare($query_insert);
-    $stmt_insert->bindParam(':id_sala', $id_sala);
-    $stmt_insert->bindParam(':numero_sillas', $numero_sillas);
-
-    if ($stmt_insert->execute()) {
-        header('Location: ../../../view/admin.php'); 
-        exit();
+    // Validar el número de sillas
+    $valid_sillas = [2, 4, 6, 8];
+    if (!in_array($numero_sillas, $valid_sillas)) {
+        $error = "No intentes petar el código.";
     } else {
-        $error = "Hubo un error al añadir la mesa.";
+        // Insertar la nueva mesa en la base de datos
+        $query_insert = "INSERT INTO tbl_mesa (id_sala, numero_sillas_mesa) VALUES (:id_sala, :numero_sillas)";
+        $stmt_insert = $conn->prepare($query_insert);
+        $stmt_insert->bindParam(':id_sala', $id_sala);
+        $stmt_insert->bindParam(':numero_sillas', $numero_sillas);
+
+        if ($stmt_insert->execute()) {
+            header('Location: ../../../view/admin.php'); 
+            exit();
+        } else {
+            $error = "Hubo un error al añadir la mesa.";
+        }
     }
 }
 ?>
@@ -41,15 +47,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Añadir Mesa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../css/cuestionarios.css">
-    <script src="../../../js/validUser.js" defer></script>
 </head>
 <body>
     <div class="container">
         <h2>Añadir Mesa</h2>
-        <form method="POST" onsubmit="return validarFormulario(event)">
+        <form method="POST">
             <div class="mb-3">
                 <label for="numero_sillas" class="form-label">Número de Sillas</label>
-                <input type="number" name="numero_sillas" id="numero_sillas" class="form-control">
+                <select name="numero_sillas" id="numero_sillas" class="form-control" required>
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="6">6</option>
+                    <option value="8">8</option>
+                </select>
             </div>
 
             <div class="mb-3">
@@ -61,14 +71,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
 
+            <?php if (isset($error)): ?>
+            <div class="alert alert-danger mt-3"><?= $error ?></div>
+            <?php endif; ?>
+
             <button type="submit" class="btn btn-primary">Añadir Mesa</button>
         </form>
 
-        <?php if (isset($error)): ?>
-            <div class="alert alert-danger mt-3"><?= $error ?></div>
-        <?php endif; ?>
         <a href="../../../view/admin.php" class="btn btn-secondary mt-3">Volver a Administración</a>
-
     </div>
 </body>
 </html>
