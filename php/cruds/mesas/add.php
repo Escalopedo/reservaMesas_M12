@@ -22,6 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $valid_sillas = [2, 4, 6, 8];
     if (!in_array($numero_sillas, $valid_sillas)) {
         $error = "No intentes petar el código.";
+    }
+    // Validar el ID de la sala (que esté entre 1 y 9)
+    elseif ($id_sala < 1 || $id_sala > 9) {
+        $error = "No intentes petar el código.";
     } else {
         // Insertar la nueva mesa en la base de datos
         $query_insert = "INSERT INTO tbl_mesa (id_sala, numero_sillas_mesa) VALUES (:id_sala, :numero_sillas)";

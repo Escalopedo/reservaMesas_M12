@@ -31,6 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $valid_sillas = [2, 4, 6, 8];
     if (!in_array($numero_sillas, $valid_sillas)) {
         $error = "No intentes petar el código.";
+    }
+    // Validar el ID de la sala
+    elseif ($id_sala < 1 || $id_sala > 9) {
+        $error = "No intentes petar el código.";
     } else {
         // Actualizar los datos de la mesa en la base de datos
         $query_update = "UPDATE tbl_mesa SET id_sala = :id_sala, numero_sillas_mesa = :numero_sillas WHERE id_mesa = :id_mesa";
