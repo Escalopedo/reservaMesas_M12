@@ -31,8 +31,10 @@ CREATE TABLE tbl_usuarios (
 -- Tabla de salas
 CREATE TABLE tbl_sala (
     id_sala INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    ubicacion_sala VARCHAR(25) NOT NULL
+    ubicacion_sala VARCHAR(25) NOT NULL,
+    imagen_fondo VARCHAR(255) NULL
 );
+
 
 -- Tabla de mesas
 CREATE TABLE tbl_mesa (
@@ -46,21 +48,20 @@ CREATE TABLE tbl_horarios (
     id_horario INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     hora_inicio TIME NOT NULL,
     hora_fin TIME NOT NULL,
-    UNIQUE (hora_inicio, hora_fin) -- Evitar franjas duplicadas
+    UNIQUE (hora_inicio, hora_fin)
 );
 
 -- Tabla de ocupaciones
 CREATE TABLE tbl_ocupacion (
     id_ocupacion INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     id_mesa INT NOT NULL,
-    id_usuario INT NULL,  -- Usuario que está ocupando la mesa
+    id_usuario INT NULL,
     fecha_inicio DATETIME NULL,
     fecha_final DATETIME NULL,
-    id_reserva INT NULL,  -- Enlazamos con tbl_reservas
+    id_reserva INT NULL,
     estado_ocupacion VARCHAR(25) NOT NULL
 );
 
--- Declarar las FOREIGN KEYS por separado
 
 -- Relación entre tbl_usuarios y tbl_roles
 ALTER TABLE tbl_usuarios
@@ -101,4 +102,4 @@ ALTER TABLE tbl_reservas
     FOREIGN KEY (id_horario) REFERENCES tbl_horarios(id_horario);
 
 
-ALTER TABLE tbl_sala ADD imagen_fondo VARCHAR(255) NULL;
+
