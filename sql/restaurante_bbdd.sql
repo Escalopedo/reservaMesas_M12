@@ -99,3 +99,6 @@ ALTER TABLE tbl_reservas
 ALTER TABLE tbl_reservas
     ADD CONSTRAINT FK_reserva_horario
     FOREIGN KEY (id_horario) REFERENCES tbl_horarios(id_horario);
+
+
+ALTER TABLE tbl_sala ADD imagen_fondo VARCHAR(255) NULL;

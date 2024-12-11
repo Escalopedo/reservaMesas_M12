@@ -1,22 +1,14 @@
 <?php
-// Iniciamos la sesión
 session_start();
-
-// Verificamos si la sesión del camarero está activa
 if (empty($_SESSION['user_id'])) {
-    // Si no está activo, redirigimos a la página de inicio de sesión
     header("Location: ./index.php");
     exit();
 }
 
-// Incluimos el archivo de conexión a la base de datos
 require '../php/conexion.php';
 require_once '../php/functions.php';
 
-// Obtenemos el ID del camarero desde la sesión
 $id_camarero = $_SESSION['user_id'];
-
-// Función para obtener información del camarero
 $info_waiter = get_info_waiter_bbdd($conn, $id_camarero);
 ?>
 
@@ -30,7 +22,6 @@ $info_waiter = get_info_waiter_bbdd($conn, $id_camarero);
     <link rel="stylesheet" href="../css/mesas.css">
 </head>
 <body>
-    <!-- Cabecera -->
     <header id="container_header">
         <div id="container-username">
             <div id="icon_profile_header">
@@ -56,28 +47,28 @@ $info_waiter = get_info_waiter_bbdd($conn, $id_camarero);
 
     <main id="mesas_main">
         <div id="mapaRestaurante_contenedor">
-            <!-- Aquí mostramos solo las salas -->
             <div id="divSalas">
                 <?php
-                    // Consulta para obtener las salas disponibles
-                    $query_salas = "SELECT * FROM tbl_sala";
-                    $stmt_salas = $conn->prepare($query_salas);
-                    $stmt_salas->execute();
-                    $salas = $stmt_salas->fetchAll(PDO::FETCH_ASSOC);
+                $query_salas = "SELECT * FROM tbl_sala";
+                $stmt_salas = $conn->prepare($query_salas);
+                $stmt_salas->execute();
+                $salas = $stmt_salas->fetchAll(PDO::FETCH_ASSOC);
 
-                    // Mostrar cada sala con imagen de fondo
-                    foreach ($salas as $sala) {
-                        echo "<div class='sala' style='cursor: pointer; background-size: cover; background-position: center;'>";
-                        echo "<a href='salas.php?id_sala=" . $sala['id_sala'] . "'>";
-                        echo "<h4>" . htmlspecialchars($sala['ubicacion_sala']) . "</h4>";
-                        echo "</a>";
-                        echo "</div>";
-                    }
+                foreach ($salas as $sala) {
+                    $ubicacion_sala = isset($sala['ubicacion_sala']) ? htmlspecialchars($sala['ubicacion_sala']) : 'Ubicación no disponible';
+                    $imagen_fondo = isset($sala['imagen_fondo']) ? "../" . htmlspecialchars($sala['imagen_fondo']) : '../img/default.jpg'; // Imagen predeterminada
+                
+                    echo "<div class='sala' style='cursor: pointer; background-image: url($imagen_fondo); background-size: cover; background-position: center;'>";
+                    echo "<a href='salas.php?id_sala=" . $sala['id_sala'] . "'>";
+                    echo "<h4>" . $ubicacion_sala . "</h4>";
+                    echo "</a>";
+                    echo "</div>";
+                }
                 ?>
             </div>
         </div>
     </main>
 
-<script src="../js/modal.js"></script>
+    <script src="../js/modal.js"></script>
 </body>
 </html>
