@@ -22,12 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && filter_has_var(INPUT_POST, 'filtros
     
     $fields = [
         'id_reserva' => ['field' => 'o.id_ocupacion', 'type' => 'i'],
-        'nombre_camarero' => ['field' => 'c.nombre_camarero', 'type' => 's', 'like' => true],
-        'apellido_camarero' => ['field' => 'c.apellidos_camarero', 'type' => 's', 'like' => true],
+        'nombre_camarero' => ['field' => 'c.nombre_usuario', 'type' => 's', 'like' => true],
+        'apellido_camarero' => ['field' => 'c.apellidos_usuario', 'type' => 's', 'like' => true],
         'id_mesa' => ['field' => 'm.id_mesa', 'type' => 'i'],
         'ubicacion_sala' => ['field' => 's.ubicacion_sala', 'type' => 's', 'like' => true],
-        'fecha_inicio' => ['field' => 'o.fecha_inicio', 'type' => 's', 'operator' => '<='],
-        'fecha_final' => ['field' => 'o.fecha_final', 'type' => 's', 'operator' => '>=']
     ];
     
     foreach ($fields as $post_key => $db_field) {
@@ -45,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && filter_has_var(INPUT_POST, 'filtros
         $conditions .= " AND " . implode(' AND ', $filters);
     }
 
-    $allowed_columns = ['id_ocupacion', 'nombre_camarero', 'id_mesa', 'ubicacion_sala', 'fecha_inicio', 'fecha_final'];
+    $allowed_columns = ['id_ocupacion', 'nombre_usuario', 'id_mesa', 'ubicacion_sala'];
     $ordenar_nombre_columna = $_POST['column_name'] ?? '';
     $ordenar_por = $_POST['ordenar_registro'] ?? '';
 
@@ -62,8 +60,6 @@ $query = "
         c.apellidos_usuario,
         m.id_mesa,
         s.ubicacion_sala,
-        o.fecha_inicio,
-        o.fecha_final,
         o.estado_ocupacion
     FROM 
         tbl_ocupacion o
@@ -79,8 +75,6 @@ try {
     $stmt_register = $conn->prepare($query);
 
     if (!empty($params)) {
-        // PDO no requiere un tipo de parámetro explícito cuando bindParam o bindValue
-        // detectan el tipo automáticamente
         $stmt_register->execute($params);
     } else {
         $stmt_register->execute();
@@ -88,9 +82,10 @@ try {
 
     $result = $stmt_register->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die("Error executing query: " . $e->getMessage());
+    die("Error ejecutando la consulta: " . $e->getMessage());
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -150,10 +145,7 @@ try {
                         <th scope="col">ID Reserva</th>
                         <th scope="col">Camarero</th>
                         <th scope="col">Mesa</th>
-                        <th scope="col">Ubicación</th>
-                        <th scope="col">Fecha de Inicio</th>
-                        <th scope="col">Fecha de Finalización</th>
-                    </tr>
+                        <th scope="col">Ubicación</th>                    </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($result as $row): ?>
@@ -162,8 +154,6 @@ try {
                             <td><?php echo htmlspecialchars($row['nombre_usuario'] . ' ' . $row['apellidos_usuario']); ?></td>
                             <td><?php echo htmlspecialchars($row['id_mesa']); ?></td>
                             <td><?php echo htmlspecialchars($row['ubicacion_sala']); ?></td>
-                            <td><?php echo date("d-m-Y H:i", strtotime($row['fecha_inicio'])); ?></td>
-                            <td><?php echo date("d-m-Y H:i", strtotime($row['fecha_final'])); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -213,20 +203,6 @@ try {
                 <label class="control-label col-sm-2" for="ubicacion_sala">Ubicación Sala:</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="ubicacion_sala" name="ubicacion_sala">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="control-label col-sm-2" for="fecha_inicio">Fecha Inicio:</label>
-                <div class="col-sm-10">
-                    <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="control-label col-sm-2" for="fecha_final">Fecha Final:</label>
-                <div class="col-sm-10">
-                    <input type="date" class="form-control" id="fecha_final" name="fecha_final">
                 </div>
             </div>
 
