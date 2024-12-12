@@ -23,22 +23,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!in_array($numero_sillas, $valid_sillas)) {
         $error = "No intentes petar el código.";
     } 
-
     // Validar que el id_sala esté entre las opciones válidas obtenidas de la base de datos
     elseif (!in_array($id_sala, array_column($salas, 'id_sala'))) {
         $error = "Sala no válida. Selecciona una sala existente.";
     } else {
-        // Insertar la nueva mesa en la base de datos
-        $query_insert = "INSERT INTO tbl_mesa (id_sala, numero_sillas_mesa) VALUES (:id_sala, :numero_sillas)";
-        $stmt_insert = $conn->prepare($query_insert);
-        $stmt_insert->bindParam(':id_sala', $id_sala);
-        $stmt_insert->bindParam(':numero_sillas', $numero_sillas);
+        try {
+            $conn->beginTransaction();
 
-        if ($stmt_insert->execute()) {
-            header('Location: ../../../view/admin.php'); 
+            // Insertar la nueva mesa en la base de datos
+            $query_insert_mesa = "INSERT INTO tbl_mesa (id_sala, numero_sillas_mesa) VALUES (:id_sala, :numero_sillas)";
+            $stmt_insert_mesa = $conn->prepare($query_insert_mesa);
+            $stmt_insert_mesa->bindParam(':id_sala', $id_sala);
+            $stmt_insert_mesa->bindParam(':numero_sillas', $numero_sillas);
+            $stmt_insert_mesa->execute();
+
+            // Obtener el último id_mesa insertado
+            $id_mesa = $conn->lastInsertId();
+
+            // Insertar estado inicial en tbl_ocupacion para la nueva mesa
+            $query_insert_ocupacion = "INSERT INTO tbl_ocupacion (id_mesa, estado_ocupacion) VALUES (:id_mesa, 'Disponible')";
+            $stmt_insert_ocupacion = $conn->prepare($query_insert_ocupacion);
+            $stmt_insert_ocupacion->bindParam(':id_mesa', $id_mesa);
+            $stmt_insert_ocupacion->execute();
+
+            $conn->commit();
+
+            header('Location: ../../../view/admin.php');
             exit();
-        } else {
-            $error = "Hubo un error al añadir la mesa.";
+        } catch (Exception $e) {
+            $conn->rollBack();
+            $error = "Hubo un error al añadir la mesa: " . $e->getMessage();
         }
     }
 }

@@ -82,9 +82,6 @@ $mesas = $stmt_mesas->fetchAll(PDO::FETCH_ASSOC);
                             echo "</br>"; 
                             echo "</br>"; 
 
- 
-
-
                             echo "<div class='mesa' data-id-mesa='$mesa_id' style='cursor: pointer;'>";
                             echo "<h4>" . htmlspecialchars('Mesa ' . $mesa_id) . "</h4>";
                             echo "<p>Capacidad: " . htmlspecialchars($mesa['numero_sillas_mesa']) . " personas</p>";

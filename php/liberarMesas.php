@@ -21,7 +21,6 @@ if (isset($_GET['id'])) {
         $update_query = "
             UPDATE tbl_ocupacion
             SET estado_ocupacion = 'Registrada', 
-                fecha_final = CURRENT_TIMESTAMP, 
                 id_usuario = :id_usuario
             WHERE id_mesa = :id_mesa AND estado_ocupacion = 'Ocupado'";
         $stmt_update = $conn->prepare($update_query);
@@ -31,8 +30,8 @@ if (isset($_GET['id'])) {
 
         // Insertar un nuevo registro indicando que la mesa está disponible
         $insert_query = "
-            INSERT INTO tbl_ocupacion (id_mesa, estado_ocupacion, fecha_inicio) 
-            VALUES (:id_mesa, 'Disponible', CURRENT_TIMESTAMP)";
+            INSERT INTO tbl_ocupacion (id_mesa, estado_ocupacion) 
+            VALUES (:id_mesa, 'Disponible')";
         $stmt_insert = $conn->prepare($insert_query);
         $stmt_insert->bindParam(':id_mesa', $id_mesa, PDO::PARAM_INT);
         $stmt_insert->execute();

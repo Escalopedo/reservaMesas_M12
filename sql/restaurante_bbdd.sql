@@ -56,8 +56,6 @@ CREATE TABLE tbl_ocupacion (
     id_ocupacion INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     id_mesa INT NOT NULL,
     id_usuario INT NULL,
-    fecha_inicio DATETIME NULL,
-    fecha_final DATETIME NULL,
     id_reserva INT NULL,
     estado_ocupacion VARCHAR(25) NOT NULL
 );

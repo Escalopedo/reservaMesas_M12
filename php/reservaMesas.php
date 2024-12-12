@@ -20,7 +20,7 @@ if (isset($_GET['id'])) {
         // Preparar la consulta para actualizar el estado de la mesa
         $update_query_ocu = "
             UPDATE tbl_ocupacion
-            SET estado_ocupacion = 'Ocupado', fecha_inicio = CURRENT_TIMESTAMP, id_usuario = :id_usuario
+            SET estado_ocupacion = 'Ocupado', id_usuario = :id_usuario
             WHERE id_mesa = :id_mesa AND estado_ocupacion = 'Disponible';
         ";
 
