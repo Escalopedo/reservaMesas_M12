@@ -68,19 +68,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Editar Sala</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../css/cuestionarios.css">
+    <script src="../../../js/editsala.js" defer></script>
 </head>
 <body>
     <div class="container">
         <h2>Editar Sala</h2>
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data" onsubmit="return validarFormulario(event)">
             <div class="mb-3">
                 <label for="ubicacion_sala" class="form-label">Ubicación de la Sala</label>
                 <input type="text" name="ubicacion_sala" id="ubicacion_sala" class="form-control" 
-                       value="<?= htmlspecialchars($sala['ubicacion_sala']) ?>" required>
+                       value="<?= htmlspecialchars($sala['ubicacion_sala']) ?>">
+                <span id="ubicacion_sala_error" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="imagen_fondo" class="form-label">Imagen de Fondo</label>
                 <input type="file" name="imagen_fondo" id="imagen_fondo" class="form-control" accept="image/*">
+                <span id="imagen_fondo_error" class="text-danger"></span>
+
                 <?php if (!empty($sala['imagen_fondo'])): ?>
                     <p class="mt-2">Imagen actual:</p>
                     <img src="../../../<?= htmlspecialchars($sala['imagen_fondo']) ?>" alt="Imagen de la sala" 

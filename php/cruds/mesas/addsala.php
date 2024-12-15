@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Añadir Sala</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../css/cuestionarios.css">
+    <script src="../../../js/sala.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -57,11 +58,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="POST" enctype="multipart/form-data" onsubmit="return validarFormulario(event)">
             <div class="mb-3">
                 <label for="ubicacion_sala" class="form-label">Ubicación de la Sala</label>
-                <input type="text" name="ubicacion_sala" id="ubicacion_sala" class="form-control" required>
+                <input type="text" name="ubicacion_sala" id="ubicacion_sala" class="form-control">
+                <span id="ubicacion_sala_error" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="imagen_fondo" class="form-label">Imagen de Fondo</label>
-                <input type="file" name="imagen_fondo" id="imagen_fondo" class="form-control" accept="image/*" required>
+                <input type="file" name="imagen_fondo" id="imagen_fondo" class="form-control" accept="image/*">
+                <span id="imagen_fondo_error" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Añadir Sala</button>
         </form>
