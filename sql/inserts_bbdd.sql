@@ -1,13 +1,13 @@
-INSERT INTO tbl_sala (ubicacion_sala,imagen_fondo) VALUES
-('Terraza 1','img/salas/terraza1.jpg'),
-('Terraza 2','img/salas/terraza2.jpg'),
-('Terraza 3','img/salas/terraza3.jpg'),
-('Sala 1','img/salas/bar1.jpg'),
-('Sala 2','img/salas/sala2.jpg'),
-('Sala Privada 1','img/salas/salaprivada1.jpg'),
-('Sala Privada 2','img/salas/sala.webp'),
-('Sala Privada 3','img/salas/salaprivada2.jpg'),
-('Sala Privada 4','img/salas/salaprivada3.jpg');
+INSERT INTO tbl_sala (ubicacion_sala) VALUES
+('Terraza 1'),
+('Terraza 2'),
+('Terraza 3'),
+('Sala 1'),
+('Sala 2'),
+('Sala Privada 1'),
+('Sala Privada 2'),
+('Sala Privada 3'),
+('Sala Privada 4');
 
 
 INSERT INTO tbl_usuarios (nombre_usuario, apellidos_usuario, username, password, id_rol) VALUES

@@ -96,8 +96,6 @@ $mesas = $stmt_mesas->fetchAll(PDO::FETCH_ASSOC);
                                     $imagen = '../img/mesaD6.png'; // Imagen para 6 personas
                                 } elseif ($numero_sillas == 8) {
                                     $imagen = '../img/mesaD8.png'; // Imagen para 8 personas
-                                } else {
-                                    $imagen = '../img/mesaD6.png'; // Imagen por defecto si el número de sillas no es 2, 4, 6 ni 8
                                 }
                                 
                                 // Mostrar la imagen correspondiente a la mesa disponible
@@ -114,8 +112,6 @@ $mesas = $stmt_mesas->fetchAll(PDO::FETCH_ASSOC);
                                     $imagen = '../img/mesaD6ocupada.png'; // Imagen para 6 personas ocupada
                                 } elseif ($numero_sillas == 8) {
                                     $imagen = '../img/mesaD8ocupada.png'; // Imagen para 8 personas ocupada
-                                } else {
-                                    $imagen = '../img/mesaD6ocupada.png'; // Imagen por defecto si el número de sillas no es 2, 4, 6 ni 8
                                 }
                                 
                                 // Mostrar la imagen correspondiente a la mesa ocupada
