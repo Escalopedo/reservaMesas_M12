@@ -7,7 +7,7 @@ if (empty($_SESSION['user_id'])) {
 }
 
 // Conectar a la base de datos
-require '../php/conexion.php';
+require '../conexion.php';
 
 // Obtener los parámetros de la URL
 $id_mesa = $_GET['id_mesa'] ?? null;

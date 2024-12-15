@@ -130,7 +130,7 @@ foreach ($horarios as $horario) {
                                     <strong>Mesa ID: <?php echo $mesa['id_mesa']; ?></strong> 
                                     - Sillas: <?php echo $mesa['numero_sillas_mesa']; ?>
                                 </div>
-                                <a href="confirmar_reserva.php?id_mesa=<?php echo $mesa['id_mesa']; ?>&fecha_reserva=<?php echo $fecha_reserva; ?>&horario_id=<?php echo $horario['id_horario']; ?>" class="btn btn-success btn-sm">Reservar</a>
+                                <a href="../php/reservas/confirmar_reserva.php?id_mesa=<?php echo $mesa['id_mesa']; ?>&fecha_reserva=<?php echo $fecha_reserva; ?>&horario_id=<?php echo $horario['id_horario']; ?>" class="btn btn-success btn-sm">Reservar</a>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -148,7 +148,7 @@ foreach ($horarios as $horario) {
                                     <strong>Mesa ID: <?php echo $mesa['id_mesa']; ?></strong> 
                                     - Sillas: <?php echo $mesa['numero_sillas_mesa']; ?>
                                 </div>
-                                <a href="cancelar_reserva.php?id_reserva=<?php echo $mesa['id_reserva']; ?>" class="btn btn-danger btn-sm">Cancelar Reserva</a>
+                                <a href="../php/reservas/cancelar_reserva.php?id_reserva=<?php echo $mesa['id_reserva']; ?>" class="btn btn-danger btn-sm">Cancelar Reserva</a>
                             </li>
                         <?php endforeach; ?>
                     </ul>

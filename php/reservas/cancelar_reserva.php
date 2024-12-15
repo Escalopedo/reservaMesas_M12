@@ -7,7 +7,7 @@ if (empty($_SESSION['user_id'])) {
 }
 
 // Conectar a la base de datos
-require '../php/conexion.php';
+require '../conexion.php';
 
 // Verificar si se recibió el ID de la reserva
 if (!isset($_GET['id_reserva'])) {
@@ -39,7 +39,7 @@ try {
     // Manejo de errores
     echo "<script>
         alert('Error al cancelar la reserva: " . $e->getMessage() . "');
-        window.location.href = 'mesas.php';
+    window.location.href = '../../view/reservas.php';
     </script>";
     exit();
 }

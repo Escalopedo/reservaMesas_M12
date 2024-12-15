@@ -7,7 +7,8 @@ if (empty($_SESSION['user_id'])) {
 }
 
 // Conectar a la base de datos
-require '../php/conexion.php';
+require '../conexion.php';
+
 
 // Obtener el ID de la reserva
 $id_reserva = $_GET['id_reserva'];
@@ -33,7 +34,7 @@ if (!$reserva) {
 // Alerta de confirmación de reserva
 echo "<script>
     alert('Reserva Confirmada para la sala " . htmlspecialchars($reserva['ubicacion_sala']) . " con " . htmlspecialchars($reserva['numero_sillas_mesa']) . " sillas. Fecha: " . htmlspecialchars($reserva['fecha_reserva']) . " de " . htmlspecialchars($reserva['hora_inicio']) . " a " . htmlspecialchars($reserva['hora_fin']) . "!');
-    window.location.href = 'mesas.php'; // Redirige a mesas.php
+    window.location.href = '../../view/reservas.php';
 </script>";
 exit();
 ?>
