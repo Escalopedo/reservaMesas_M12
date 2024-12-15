@@ -31,7 +31,7 @@ try {
     // Redirigir a la página de gestión de mesas con un mensaje de éxito
     echo "<script>
         alert('Reserva cancelada con éxito.');
-        window.location.href = 'mesas.php';
+    window.location.href = '../../view/reservas.php';
     </script>";
     exit();
 

@@ -34,6 +34,7 @@ $salas = $stmt_salas->fetchAll(PDO::FETCH_ASSOC);
     <title>Reservar Mesa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/mesas.css">
+    <script src="../js/reserva.js" defer></script>
 </head>
 <body>
     <!-- Cabecera -->
@@ -68,7 +69,7 @@ $salas = $stmt_salas->fetchAll(PDO::FETCH_ASSOC);
             <!-- Selección de Sala -->
             <div class="mb-3">
                 <label for="sala_id" class="form-label">Sala</label>
-                <select name="sala_id" id="sala_id" class="form-control" required>
+                <select name="sala_id" id="sala_id" class="form-control">
                     <option value="">Selecciona una sala</option>
                     <?php foreach ($salas as $sala): ?>
                         <option value="<?php echo $sala['id_sala']; ?>"><?php echo $sala['ubicacion_sala']; ?></option>
@@ -79,7 +80,7 @@ $salas = $stmt_salas->fetchAll(PDO::FETCH_ASSOC);
             <!-- Selección de Fecha y Hora -->
             <div class="mb-3">
                 <label for="fecha_reserva" class="form-label">Fecha y Hora</label>
-                <input type="date" name="fecha_reserva" id="fecha_reserva" class="form-control" required>
+                <input type="date" name="fecha_reserva" id="fecha_reserva" class="form-control">
             </div>
 
             <button type="submit" class="btn btn-primary">Ver Mesas Disponibles</button>
