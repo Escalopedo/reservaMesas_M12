@@ -68,7 +68,10 @@ $info_waiter = get_info_waiter_bbdd($conn, $id_camarero);
             </div>
         </div>
     </main>
+    <div>
+        <br>
+        <br>
+    </div>
 
-    <script src="../js/modal.js"></script>
 </body>
 </html>
